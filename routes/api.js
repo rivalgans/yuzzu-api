@@ -24,7 +24,6 @@ var router  = express.Router();
 
 var { color, bgcolor } = require(__path + '/lib/color.js');
 var { fetchJson } = require(__path + '/lib/fetcher.js')
-var { pinterest } = require('/lib/pinterest.js')
 var options = require(__path + '/lib/options.js');
 var {
 	Vokal,
@@ -3270,28 +3269,6 @@ router.get('/yutub/audio', async (req, res, next) => {
         .then(response => response.json())
         .then(data => {
         var result = data;
-             res.json({
-             	author: 'YuzzuKamiyaka',
-                 result
-             })
-         })
-         .catch(e => {
-         	res.json(loghandler.error)
-})
-})
-//YuzzuKamiyaka
-router.get('/pinterest', async (req, res, next) => {
-        var apikeyInput = req.query.apikey,
-            text = req.query.text
-            
-	if(!apikeyInput) return res.json(loghandler.notparam)
-	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
-    if (!text) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text"})
-    
-       pinterest(`${text}`)
-        .then(data => {
-        var result = data.result;
-        var result = result[Math.floor(Math.random() * result.length)]
              res.json({
              	author: 'YuzzuKamiyaka',
                  result
