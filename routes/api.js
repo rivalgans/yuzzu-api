@@ -3311,9 +3311,9 @@ router.get('/tiktok', async (req, res, next) => {
 	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
     if (!url) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter url"})
 
-       result = await TiktokDownloader(`${url}`)
+       res = await TiktokDownloader(`${url}`)
         .then(data => {
-        var result = result;
+        var result = res.result;
              res.json({
              	author: 'YuzzuKamiyaka',
                  result
