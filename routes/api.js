@@ -28,7 +28,6 @@ var { pinterest } = require('../lib/pinterest.js')
 var { TiktokDownloader } = require('../lib/tiktokdl.js')
 var { igDownloader } = require('../lib/igdown.js')
 var { lirikLagu } = require('../lib/lirik.js')
-var { yta, ytv, buffer2Stream, ytsr, baseURI, stream2Buffer, noop } = require('../lib/ytdl.js')
 var options = require(__path + '/lib/options.js');
 var {
 	Vokal,
@@ -3326,29 +3325,6 @@ router.get('/instagram', async (req, res, next) => {
 })
 })
 
-router.get('/ytsearch', async (req, res, next) => {
-        var apikeyInput = req.query.apikey,
-            text = req.query.text
-
-	if(!apikeyInput) return res.json(loghandler.notparam)
-	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
-    if (!url) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text"})
-
-       var filter1 = await ytsd.getFilters(`${text}`)
-       var filters1 = filter1.get('Type').get('Video')
-       var anu = await ytsd(filters1.url, { limit: 10 })
-        .then(data => {
-        var result = data.anu;
-             res.json({
-             	author: 'YuzzuKamiyaka',
-                 result
-             })
-         })
-         .catch(e => {
-         	res.json(loghandler.error)
-})
-})
-
 router.get('/lirikLagu', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
             text = req.query.text
@@ -3359,7 +3335,7 @@ router.get('/lirikLagu', async (req, res, next) => {
 
        lirikLagu(`${text}`)
         .then(data => {
-        var result = data.result;
+        var result = data;
              res.json({
              	author: 'YuzzuKamiyaka',
                  result
