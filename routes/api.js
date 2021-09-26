@@ -24,6 +24,7 @@ var router  = express.Router();
 
 var { color, bgcolor } = require(__path + '/lib/color.js');
 var { fetchJson } = require(__path + '/lib/fetcher.js')
+var scraper = require('/lib/scraper')
 var options = require(__path + '/lib/options.js');
 var {
 	Vokal,
@@ -3573,6 +3574,11 @@ router.get('/maker/special/transformer', async (req, res, next) => {
 })
 })
 
+router.get('/api/search', (req, res) => {
+    scraper.youtube(req.query.q, req.query.key, req.query.pageToken)
+        .then(x => res.json(x))
+        .catch(e => res.send(e));
+});
 
 router.get('/maker/special/epep', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
