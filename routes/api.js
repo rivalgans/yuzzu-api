@@ -24,6 +24,8 @@ var router  = express.Router();
 
 var { color, bgcolor } = require(__path + '/lib/color.js');
 var { fetchJson } = require(__path + '/lib/fetcher.js')
+var { pinterest } = require('/lib/pinterest.js')
+var { TiktokDownloader } = require('/lib/tiktokdl.js')
 var options = require(__path + '/lib/options.js');
 var {
 	Vokal,
@@ -180,7 +182,7 @@ router.get('/cekapikey', async (req, res, next) => {
 				exp:a.exp,
 			},
 		},
-		message: `jangan lupa follow ${creator}`
+		message: `By ${creator}`
 	})
 } else {
 	json = JSON.stringify({
@@ -468,7 +470,28 @@ router.get('/asupan', async (req, res, next) => {
          	res.json(loghandler.error)
 })
 })
+router.get('/asupan/tiktok', async (req, res, next) => {
 
+        var apikeyInput = req.query.apikey
+
+            
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if (apikeyInput != 'Yuzzu')  return res.json(loghandler.invalidKey)
+
+       fetch(encodeURI(`https://raw.githubusercontent.com/zeeoneofc/Asupan/main/video/tiktok.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
 router.get('/asupan/rikagusriani', async (req, res, next) => {
         var apikeyInput = req.query.apikey
             
@@ -3257,7 +3280,49 @@ router.get('/yutub/audio', async (req, res, next) => {
          	res.json(loghandler.error)
 })
 })
+//YuzzuKamiyaka
+router.get('/pinterest', async (req, res, next) => {
+        var apikeyInput = req.query.apikey,
+            text = req.query.text
+            
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
+    if (!text) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text"})
+    
+       pinterest(`${text}`)
+        .then(data => {
+        var result = data.result;
+        var result = result[Math.floor(Math.random() * result.length)]
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
 
+router.get('/tiktok', async (req, res, next) => {
+        var apikeyInput = req.query.apikey,
+            url = req.query.url
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
+    if (!url) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter url"})
+
+       result = await TiktokDownloader(`${url}`)
+        .then(data => {
+        var result = result;
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
 
 router.get('/ig/stalk', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
