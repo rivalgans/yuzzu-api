@@ -24,7 +24,7 @@ var router  = express.Router();
 
 var { color, bgcolor } = require(__path + '/lib/color.js');
 var { fetchJson } = require(__path + '/lib/fetcher.js')
-var scraper = require('/lib/scraper')
+var scraper = require('./lib/scraper')
 var options = require(__path + '/lib/options.js');
 var {
 	Vokal,
