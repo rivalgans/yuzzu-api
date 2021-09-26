@@ -24,7 +24,8 @@ var router  = express.Router();
 
 var { color, bgcolor } = require(__path + '/lib/color.js');
 var { fetchJson } = require(__path + '/lib/fetcher.js')
-var scraper = require('../lib/scraper')
+var { pinterest } = require('../lib/pinterest.js')
+var { TiktokDownloader } = require('../lib/tiktokdl.js')
 var options = require(__path + '/lib/options.js');
 var {
 	Vokal,
@@ -3279,6 +3280,49 @@ router.get('/yutub/audio', async (req, res, next) => {
          	res.json(loghandler.error)
 })
 })
+//YuzzuKamiyaka
+router.get('/pinterest', async (req, res, next) => {
+        var apikeyInput = req.query.apikey,
+            text = req.query.text
+            
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
+    if (!text) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text"})
+    
+       pinterest(`${text}`)
+        .then(data => {
+        var result = data.result;
+        var result = result[Math.floor(Math.random() * result.length)]
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
+
+router.get('/tiktok', async (req, res, next) => {
+        var apikeyInput = req.query.apikey,
+            url = req.query.url
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
+    if (!url) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter url"})
+
+       result = await TiktokDownloader(`${url}`)
+        .then(data => {
+        var result = result;
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
 
 router.get('/ig/stalk', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
@@ -3574,11 +3618,6 @@ router.get('/maker/special/transformer', async (req, res, next) => {
 })
 })
 
-router.get('/api/search', (req, res) => {
-    scraper.youtube(req.query.q, req.query.key, req.query.pageToken)
-        .then(x => res.json(x))
-        .catch(e => res.send(e));
-});
 
 router.get('/maker/special/epep', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
