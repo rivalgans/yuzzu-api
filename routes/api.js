@@ -26,6 +26,7 @@ var { color, bgcolor } = require(__path + '/lib/color.js');
 var { fetchJson } = require(__path + '/lib/fetcher.js')
 var { pinterest } = require('../lib/pinterest.js')
 var { TiktokDownloader } = require('../lib/tiktokdl.js')
+var { igDownloader } = require('../lib/igdown.js')
 var options = require(__path + '/lib/options.js');
 var {
 	Vokal,
@@ -3312,6 +3313,27 @@ router.get('/tiktok', async (req, res, next) => {
     if (!url) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter url"})
 
        TiktokDownloader(`${url}`)
+        .then(data => {
+        var result = data.result;
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
+
+router.get('/instagram', async (req, res, next) => {
+        var apikeyInput = req.query.apikey,
+            url = req.query.url
+
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
+    if (!url) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter url"})
+
+       igDownloader(`${url}`)
         .then(data => {
         var result = data.result;
              res.json({
