@@ -3313,7 +3313,7 @@ router.get('/tiktok', async (req, res, next) => {
 
        TiktokDownloader(`${url}`)
         .then(data => {
-        var result = result;
+        var result = data.result;
              res.json({
              	author: 'YuzzuKamiyaka',
                  result
