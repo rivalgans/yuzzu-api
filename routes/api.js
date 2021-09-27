@@ -28,7 +28,6 @@ var { pinterest } = require('../lib/pinterest.js')
 var { TiktokDownloader } = require('../lib/tiktokdl.js')
 var { igDownloader } = require('../lib/igdown.js')
 var { lirikLagu } = require('../lib/lirik.js')
-var { yta, ytv, buffer2Stream, ytsr, baseURI, stream2Buffer, noop } = require('../database/ytdl.js'
 var options = require(__path + '/lib/options.js');
 var {
 	Vokal,
@@ -3321,32 +3320,6 @@ router.get('/instagram', async (req, res, next) => {
                  result
              })
          })
-         .catch(e => {
-         	res.json(loghandler.error)
-})
-})
-
-router.get('/yutub/mp3', async (req, res, next) => {
-        var apikeyInput = req.query.apikey,
-            url = req.query.url
-            
-	if(!apikeyInput) return res.json(loghandler.notparam)
-	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
-    if (!url) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter url"})
-
-       yta(`${url}`)
-        .then(response => response.json())
-        .then((res) => {
-            var { dl_link, thumb, title, filesizeF, filesize } = res
-            axios.get(`https://tinyurl.com/api-create.php?url=${dl_link}`)
-        .then(data => {
-        var result = data;
-             res.json({
-             	author: 'YuzzuKamiyaka',
-                 result
-             })
-         })
-    })
          .catch(e => {
          	res.json(loghandler.error)
 })
