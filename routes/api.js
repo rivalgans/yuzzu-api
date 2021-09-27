@@ -2630,8 +2630,7 @@ router.get('/kuis/caklontong', async (req, res, next) => {
        fetch(encodeURI(`https://raw.githubusercontent.com/YuzzuKamiyaka/database-api/main/fun/caklontong.json`))
         .then(response => response.json())
         .then(data => {
-        var result = data.result;
-        var result = result[Math.floor(Math.random() * result.length)]
+        var result = data;
              res.json({
                  result
              })
@@ -2651,8 +2650,7 @@ router.get('/kuis/tebakgambar', async (req, res, next) => {
        fetch(encodeURI(`https://raw.githubusercontent.com/YuzzuKamiyaka/database-api/main/fun/tebakgambar.json`))
         .then(response => response.json())
         .then(data => {
-        var result = data.result;
-        var result = result[Math.floor(Math.random() * result.length)]
+        var result = data;
              res.json({
                  result
              })
