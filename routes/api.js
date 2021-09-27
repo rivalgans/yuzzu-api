@@ -2632,6 +2632,7 @@ router.get('/kuis/caklontong', async (req, res, next) => {
         .then(response => response.json())
         .then(data => {
         var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
              res.json({
                  result
              })
@@ -2652,6 +2653,7 @@ router.get('/kuis/tebakgambar', async (req, res, next) => {
         .then(response => response.json())
         .then(data => {
         var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
              res.json({
                  result
              })
@@ -3407,6 +3409,62 @@ router.get('/ssweb', async (req, res, next) => {
 })
 })
 
+router.get('/play/mp4', async (req, res, next) => {
+        var apikeyInput = req.query.apikey
+            quer = req.query.quer
+	if(!apikeyInput) return res.json(loghandler.notparam)	
+	if (apikeyInput != 'Yuzzu')  return res.json(loghandler.invalidKey)
+       fetch(encodeURI(`https://hardianto-chan.herokuapp.com/api/yt/playmp4?query=${quer}&apikey=hardianto`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
+
+router.get('/play/mp3', async (req, res, next) => {
+        var apikeyInput = req.query.apikey
+            quer = req.query.quer
+	if(!apikeyInput) return res.json(loghandler.notparam)	
+	if (apikeyInput != 'Yuzzu')  return res.json(loghandler.invalidKey)
+       fetch(encodeURI(`https://hardianto-chan.herokuapp.com/api/yt/playmp3?query=${quer}&apikey=hardianto`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
+
+router.get('/ytdownn', async (req, res, next) => {
+        var apikeyInput = req.query.apikey
+            url = req.query.url
+	if(!apikeyInput) return res.json(loghandler.notparam)	
+	if (apikeyInput != 'Yuzzu')  return res.json(loghandler.invalidKey)
+       fetch(encodeURI(`https://hardianto-chan.herokuapp.com/api/download/ytdownload?url=${url}&apikey=hardianto`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data.result;
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
 
 router.get('/ig/stalk', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
