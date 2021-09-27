@@ -3346,6 +3346,27 @@ router.get('/lirikLagu', async (req, res, next) => {
 })
 })
 
+router.get('/simi', async (req, res, next) => {
+        var apikeyInput = req.query.apikey,
+            text = req.query.text
+            
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
+    if (!text) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text"})
+    
+       fetch(encodeURI(`https://api.simsimi.net/v2/?text=${text}&lc=id`))
+        .then(data => {
+        var anu = data;
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result: anu.success
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
+
 router.get('/darkjokes', async (req, res, next) => {
         var apikeyInput = req.query.apikey
 	if(!apikeyInput) return res.json(loghandler.notparam)	
