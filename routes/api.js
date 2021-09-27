@@ -2627,10 +2627,11 @@ router.get('/kuis/caklontong', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
 
-       fetch(encodeURI(`https://docs-api-zahirrr.herokuapp.com/api/quote?type=caklontong`))
+       fetch(encodeURI(`https://raw.githubusercontent.com/YuzzuKamiyaka/database-api/main/fun/caklontong.json`))
         .then(response => response.json())
         .then(data => {
-        var result = data;
+        var result = data.result;
+        var result = result[Math.floor(Math.random() * result.length)]
              res.json({
                  result
              })
@@ -2647,10 +2648,11 @@ router.get('/kuis/tebakgambar', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
 
-       fetch(encodeURI(`https://docs-api-zahirrr.herokuapp.com/api/quote?type=tebakgambar`))
+       fetch(encodeURI(`https://raw.githubusercontent.com/YuzzuKamiyaka/database-api/main/fun/tebakgambar.json`))
         .then(response => response.json())
         .then(data => {
-        var result = data;
+        var result = data.result;
+        var result = result[Math.floor(Math.random() * result.length)]
              res.json({
                  result
              })
@@ -3372,7 +3374,7 @@ router.get('/darkjokes', async (req, res, next) => {
         var apikeyInput = req.query.apikey
 	if(!apikeyInput) return res.json(loghandler.notparam)	
 	if (apikeyInput != 'Yuzzu')  return res.json(loghandler.invalidKey)
-       fetch(encodeURI(`https://raw.githubusercontent.com/YuzzuKamiyaka/meme/main/meme/darkjokes.json`))
+       fetch(encodeURI(`https://raw.githubusercontent.com/YuzzuKamiyaka/database-api/main/meme/darkjokes.json`))
         .then(response => response.json())
         .then(data => {
         var result = data;
