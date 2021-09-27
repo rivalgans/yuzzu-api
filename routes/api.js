@@ -3355,6 +3355,7 @@ router.get('/simi', async (req, res, next) => {
     if (!text) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter text"})
     
        fetch(encodeURI(`https://api.simsimi.net/v2/?text=${text}&lc=id`))
+        .then(response => response.json())
         .then(data => {
         var result = data;
              res.json({
