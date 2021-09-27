@@ -3356,10 +3356,10 @@ router.get('/simi', async (req, res, next) => {
     
        fetch(encodeURI(`https://api.simsimi.net/v2/?text=${text}&lc=id`))
         .then(data => {
-        var anu = data;
+        var result = data;
              res.json({
              	author: 'YuzzuKamiyaka',
-                 result: anu.success
+                 result
              })
          })
          .catch(e => {
