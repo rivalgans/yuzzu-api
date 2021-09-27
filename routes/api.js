@@ -1097,12 +1097,13 @@ router.get('/randomquote', async (req, res, next) => {
 	if(!apikeyInput) return res.json(loghandler.notparam)
 	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
 
-       fetch(encodeURI(`https://python-api-zhirrr.herokuapp.com/api/randomquotes`))
+       fetch(encodeURI(`https://raw.githubusercontent.com/YuzzuKamiyaka/database-api/main/fun/quote.json`))
         .then(response => response.json())
         .then(data => {
         var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
              res.json({
-                 creator : `${creator}`,
+             	author: 'YuzzuKamiyaka',
                  result
              })
          })
@@ -3386,6 +3387,26 @@ router.get('/darkjokes', async (req, res, next) => {
          	res.json(loghandler.error)
 })
 })
+
+router.get('/ssweb', async (req, res, next) => {
+        var apikeyInput = req.query.apikey
+            url = req.query.url
+	if(!apikeyInput) return res.json(loghandler.notparam)	
+	if (apikeyInput != 'Yuzzu')  return res.json(loghandler.invalidKey)
+       fetch(encodeURI(`https://hardianto-chan.herokuapp.com/api/tools/ssweb?url=${url}&apikey=hardianto`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
+
 
 router.get('/ig/stalk', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
