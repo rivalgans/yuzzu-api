@@ -28,6 +28,7 @@ var { pinterest } = require('../lib/pinterest.js')
 var { TiktokDownloader } = require('../lib/tiktokdl.js')
 var { igDownloader } = require('../lib/igdown.js')
 var { lirikLagu } = require('../lib/lirik.js')
+var { yta, ytv, buffer2Stream, ytsr, baseURI, stream2Buffer, noop } = require('../database/ytdl.js'
 var options = require(__path + '/lib/options.js');
 var {
 	Vokal,
@@ -139,7 +140,7 @@ loghandler = {
     error: {
         status: false,
         creator: `${creator}`,
-        message: 'mungkin sedang dilakukan perbaikan'
+        message: '404 not result'
     }
 }
 
@@ -3325,6 +3326,32 @@ router.get('/instagram', async (req, res, next) => {
 })
 })
 
+router.get('/yutub/mp3', async (req, res, next) => {
+        var apikeyInput = req.query.apikey,
+            url = req.query.url
+            
+	if(!apikeyInput) return res.json(loghandler.notparam)
+	if(apikeyInput != 'Yuzzu') return res.json(loghandler.invalidKey)
+    if (!url) return res.json({ status : false, creator : `${creator}`, message : "masukan parameter url"})
+
+       yta(`${url}`)
+        .then(response => response.json())
+        .then((res) => {
+            var { dl_link, thumb, title, filesizeF, filesize } = res
+            axios.get(`https://tinyurl.com/api-create.php?url=${dl_link}`)
+        .then(data => {
+        var result = data;
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+    })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
+
 router.get('/lirikLagu', async (req, res, next) => {
         var apikeyInput = req.query.apikey,
             text = req.query.text
@@ -3336,6 +3363,25 @@ router.get('/lirikLagu', async (req, res, next) => {
        lirikLagu(`${text}`)
         .then(data => {
         var result = data;
+             res.json({
+             	author: 'YuzzuKamiyaka',
+                 result
+             })
+         })
+         .catch(e => {
+         	res.json(loghandler.error)
+})
+})
+
+router.get('/darkjokes', async (req, res, next) => {
+        var apikeyInput = req.query.apikey
+	if(!apikeyInput) return res.json(loghandler.notparam)	
+	if (apikeyInput != 'Yuzzu')  return res.json(loghandler.invalidKey)
+       fetch(encodeURI(`https://raw.githubusercontent.com/YuzzuKamiyaka/meme/main/meme/darkjokes.json`))
+        .then(response => response.json())
+        .then(data => {
+        var result = data;
+        var result = data[Math.floor(Math.random() * data.length)];
              res.json({
              	author: 'YuzzuKamiyaka',
                  result
